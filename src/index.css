@@ -10,7 +10,7 @@
 
 .container {
   margin: 2rem auto;
-  width: 100%;
+  width: 90%;
   max-width: 800px;
   display: flex;
   flex-direction: column;

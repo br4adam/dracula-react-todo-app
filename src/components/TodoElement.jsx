@@ -1,19 +1,19 @@
 import { Button, Box, Text } from 'dracula-ui'
 
-const TodoElement = (props) => {
+const TodoElement = ({ data, completeTodoFunction, deleteTodoFunction }) => {
   return (
-    <Box display="flex" p="sm" mb="xs" rounded="lg" color={!props.data.isCompleted && "black"}>
+    <Box display="flex" p="sm" mb="xs" rounded="lg" color={!data.isCompleted && "black"}>
       <Box display="flex" pr="md" style={{flexDirection: "column"}}>
-        <Text color={props.data.isCompleted ? "blackSecondary" : "purpleCyan"} weight="semibold">{props.data.text}</Text>
-        <Text my="xs" color="blackSecondary">{props.data.date}</Text>
+        <Text color={data.isCompleted ? "blackSecondary" : "purpleCyan"} weight="semibold">{data.text}</Text>
+        <Text my="xs" color="blackSecondary">{data.date}</Text>
       </Box>
       <Box display="flex" style={{justifyContent: "flex-end", alignItems: "center"}}>
-        <Button size="sm" mr="xs" color="green" variant="ghost" disabled={props.data.isCompleted ? true : false}
-          onClick={() => props.completeTodoFunction(props.index)}>
+        <Button size="sm" mr="xs" color="green" variant="ghost" disabled={data.isCompleted ? true : false}
+          onClick={() => completeTodoFunction(data.id)}>
           Done
         </Button>
         <Button size="sm" color="purple" variant="ghost"
-          onClick={() => props.deleteTodoFunction(props.index)}>
+          onClick={() => deleteTodoFunction(data.id)}>
           Delete
         </Button>
       </Box>

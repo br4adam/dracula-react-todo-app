@@ -13,25 +13,28 @@ const App = () => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos])
 
+  const generateId = () => {
+    return Math.random().toString(36).substring(2)
+  }
+
   const addTodoFunction = (text) => {
+    const id = generateId()
     const date = new Date()
     const currentDate = date.toISOString().slice(0,10)
-    const newTodo = { text: text, isCompleted: false, date: currentDate}
-    const newTodos = [...todos, newTodo]
+    const newTodo = { id: id, text: text, isCompleted: false, date: currentDate }
+    const newTodos = [ ...todos, newTodo ]
     setTodos(newTodos)
   }
 
-  const completeTodoFunction = (index) => {
-    const newTodos = [...todos]
-    newTodos[index].isCompleted = true
+  const completeTodoFunction = (id) => {
+    const newTodos = [ ...todos ]
+    newTodos.find((todo) => todo.id === id).isCompleted = true
     setTodos(newTodos)
   }
 
-  const deleteTodoFunction = (index) => {
-    const newTodos = todos.filter(todo => todo.index !== index)
-    // const newTodos = [...todos]
-    // newTodos.splice(index, 1)
-    setTodos(newTodos)
+  const deleteTodoFunction = (id) => {
+    const newTodos = [ ...todos ]
+    setTodos(newTodos.filter((todo) => todo.id !== id))
   }
 
   const filterTodos = () => {
@@ -42,15 +45,13 @@ const App = () => {
     <div className="container">
       <Header 
         todos={todos}
-        toggle={toggle}
         filterTodos={filterTodos}/>
       <div className="todo-list" style={{marginTop: "1rem"}}>
-        { todos
+        {todos
         .filter((todo) => todo.isCompleted==toggle)
-        .map((todo, index) => 
+        .map((todo) => 
         <TodoElement 
-          key={index}
-          index={index}
+          key={todo.id}
           data={todo}
           completeTodoFunction={completeTodoFunction}
           deleteTodoFunction={deleteTodoFunction}
