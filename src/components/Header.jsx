@@ -1,6 +1,6 @@
 import { Heading, Box, Switch } from "dracula-ui"
 
-const Header = ({ todos, handleShowDate }) => {
+const Header = ({ todos, handleShowMore }) => {
 
   const incompleteTodos = todos.filter((todo) => todo.isCompleted==false)
 
@@ -10,7 +10,7 @@ const Header = ({ todos, handleShowDate }) => {
         You have {incompleteTodos.length} open {incompleteTodos.length > 1 ? "tasks" : "task"}.
       </Heading>
       <Switch
-        onClick={handleShowDate}
+        onClick={handleShowMore}
         color="purple"
         defaultChecked="yes">
       </Switch>
