@@ -1,63 +1,72 @@
 import { useState, useEffect } from 'react'
 import 'dracula-ui/styles/dracula-ui.css'
-import TodoElement from './components/TodoElement'
-import AddForm from './components/AddForm'
 import Header from './components/Header'
+import NavTabs from './components/NavTabs'
+import TodoCard from './components/TodoCard'
+import AddForm from './components/AddForm'
+import { Box } from 'dracula-ui'
 
 const App = () => {
+  const welcomeTodo = { id: 1, text: "Add your first todo!", isCompleted: false, date: "1" }
 
-  const [ todos, setTodos ] = useState(JSON.parse(localStorage.getItem("todos")) || [])
-  const [ toggle, setToggle ] = useState(false)
+  const [ todos, setTodos ] = useState(JSON.parse(localStorage.getItem("todos")) || [welcomeTodo])
+  const [ showDate, setShowDate ] = useState(true)
+  const [ showAll, setShowAll ] = useState(true)
+  const [ filterCompleted, setFilterCompleted ] = useState(true)
 
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
+    localStorage.setItem("todos", JSON.stringify(todos))
   }, [todos])
 
   const generateId = () => {
     return Math.random().toString(36).substring(2)
   }
 
-  const addTodoFunction = (text) => {
-    const id = generateId()
+  const handleAdd = (text) => {
     const date = new Date()
     const currentDate = date.toISOString().slice(0,10)
-    const newTodo = { id: id, text: text, isCompleted: false, date: currentDate }
+    const newTodo = { id: generateId(), text: text, isCompleted: false, date: currentDate }
     const newTodos = [ ...todos, newTodo ]
     setTodos(newTodos)
   }
 
-  const completeTodoFunction = (id) => {
+  const handleComplete = (id) => {
     const newTodos = [ ...todos ]
     newTodos.find((todo) => todo.id === id).isCompleted = true
     setTodos(newTodos)
   }
 
-  const deleteTodoFunction = (id) => {
+  const handleDelete = (id) => {
     const newTodos = [ ...todos ]
     setTodos(newTodos.filter((todo) => todo.id !== id))
   }
 
-  const filterTodos = () => {
-    setToggle(!toggle)
+  const handleShowDate = () => {
+    setShowDate(!showDate)
   }
 
   return (
     <div className="container">
       <Header 
         todos={todos}
-        filterTodos={filterTodos}/>
-      <div className="todo-list" style={{marginTop: "1rem"}}>
+        handleShowDate={handleShowDate}
+        />
+      <NavTabs
+        setShowAll={setShowAll}
+        setFilterCompleted={setFilterCompleted}/>
+      <Box as="main" mt="xs">
         {todos
-        .filter((todo) => todo.isCompleted==toggle)
+        .filter((todo) => showAll || todo.isCompleted==filterCompleted)
         .map((todo) => 
-        <TodoElement 
-          key={todo.id}
-          data={todo}
-          completeTodoFunction={completeTodoFunction}
-          deleteTodoFunction={deleteTodoFunction}
-          />)}
-      </div>
-      <AddForm addTodoFunction={addTodoFunction}/>
+          <TodoCard 
+            key={todo.id}
+            data={todo}
+            showDate={showDate}
+            handleComplete={handleComplete}
+            handleDelete={handleDelete}
+            />)}
+      </Box>
+      <AddForm handleAdd={handleAdd}/>
     </div>
   )
 }

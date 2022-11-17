@@ -11,23 +11,26 @@
 .container {
   margin: 2rem auto;
   width: 90%;
-  max-width: 800px;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
 }
 
-.todo-list > div {
+article {
   justify-content: space-between;
   align-items: center;
+  border: 2px solid transparent;
 }
 
-form {
-  display: flex;
-  flex-direction: row;
+article:hover {
+  border: 2px solid #41455860;
 }
 
 @media screen and (max-width: 600px) {
-  .todo-list > div {
+  html {
+    font-size: 14px;
+  }
+  article {
     flex-direction: column;
     align-items: flex-start;
   }
