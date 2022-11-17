@@ -50,14 +50,16 @@ const App = () => {
       <Header 
         todos={todos}
         handleShowMore={handleShowMore}
-        />
+      />
       <NavTabs
+        todos={todos}
         setShowAll={setShowAll}
-        setFilterCompleted={setFilterCompleted}/>
+        setFilterCompleted={setFilterCompleted}
+      />
       <Box as="main" mt="xs">
         {todos
-        .filter((todo) => showAll || todo.isCompleted==filterCompleted)
-        .map((todo) => 
+        .filter(todo => showAll || todo.isCompleted==filterCompleted)
+        .map(todo => 
           <TodoCard 
             key={todo.id}
             data={todo}
@@ -66,7 +68,9 @@ const App = () => {
             handleDelete={handleDelete}
             />)}
       </Box>
-      <AddForm handleAdd={handleAdd}/>
+      <AddForm 
+        handleAdd={handleAdd}
+      />
     </div>
   )
 }

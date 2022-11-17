@@ -2,13 +2,13 @@ import { useState } from "react"
 import { Tabs } from "dracula-ui"
 import NavTab from "./NavTab"
 
-const NavTabs = ({ setShowAll, setFilterCompleted }) => {
+const NavTabs = ({ todos, setShowAll, setFilterCompleted }) => {
   const [ activeTab, setActiveTab ] = useState(1)
 
   const tabs = [
-    { id: 1, text: "All", showAll: true},
-    { id: 2, text: "Open", showAll: false, filterCompleted: false},
-    { id: 3, text: "Completed", showAll: false, filterCompleted: true},
+    { id: 1, text: "All", showAll: true, count: todos.length },
+    { id: 2, text: "Open", showAll: false, filterCompleted: false, count: todos.filter(todo => !todo.isCompleted).length},
+    { id: 3, text: "Completed", showAll: false, filterCompleted: true, count: todos.filter(todo => todo.isCompleted).length},
   ]
 
   return (
@@ -24,6 +24,7 @@ const NavTabs = ({ setShowAll, setFilterCompleted }) => {
         }}
         activeTab={activeTab}
         text={tab.text}
+        count={tab.count}
         />
     )}
     </Tabs>

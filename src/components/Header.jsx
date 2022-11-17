@@ -12,8 +12,8 @@ const Header = ({ todos, handleShowMore }) => {
       <Switch
         onClick={handleShowMore}
         color="purple"
-        defaultChecked="yes">
-      </Switch>
+        defaultChecked="yes" 
+      />
     </Box>
   )
 }
