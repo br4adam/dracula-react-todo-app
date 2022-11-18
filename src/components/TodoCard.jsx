@@ -10,10 +10,10 @@ const TodoElement = ({ data, handleComplete, handleDelete, showMore }) => {
   return (
     <Box display="flex" p="sm" mb="xs" rounded="lg" as="article" color={!data.isCompleted && "black"}>
       <Box display="flex" pr="sm" style={{flexDirection: "column"}}>
-        <Text color={data.isCompleted ? "blackSecondary" : "purpleCyan"} weight="semibold">
+        <Text color={data.isCompleted ? "blackSecondary" : "purpleCyan"}>
           {showMore ? data.text : cropLongText(data)}
         </Text>
-        <Text mt="xs" color="blackSecondary">{showMore && data.date}</Text>
+        <Text mt={showMore && "xs"} color="blackSecondary">{showMore && data.date}</Text>
       </Box>
       <TodoCardButtons 
         handleComplete={handleComplete}

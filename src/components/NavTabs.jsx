@@ -3,7 +3,7 @@ import { Tabs } from "dracula-ui"
 import NavTab from "./NavTab"
 
 const NavTabs = ({ todos, setShowAll, setFilterCompleted }) => {
-  const [ activeTab, setActiveTab ] = useState(1)
+  const [ activeTab, setActiveTab ] = useState(2)
 
   const tabs = [
     { id: 1, text: "All", showAll: true, count: todos.length },
@@ -14,7 +14,7 @@ const NavTabs = ({ todos, setShowAll, setFilterCompleted }) => {
   return (
     <Tabs color="pink">
     {tabs.map((tab) => 
-      <NavTab 
+      <NavTab
         key={tab.id}
         id={tab.id}
         onClick={() => {

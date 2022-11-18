@@ -6,7 +6,7 @@ const NavTab = ({ onClick, id, text, count, activeTab }) => {
       className={id === activeTab ? "drac-tab drac-tab-active" : "drac-tab"}
       onClick={onClick} 
       style={{cursor: "pointer"}}>
-      <Text mx="md">
+      <Text px="sm">
         {text}
         <Text as="span" pl="xs" color="blackSecondary">
           ({count})
