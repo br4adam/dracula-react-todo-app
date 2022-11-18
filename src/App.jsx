@@ -12,7 +12,7 @@ const App = () => {
   const welcomeTodo = { id: 1, text: "Hello! Add your first todo!", isCompleted: false, date: new Date().toISOString().slice(0,10) }
 
   const [ todos, setTodos ] = useState(JSON.parse(localStorage.getItem("todos")) || [welcomeTodo])
-  const [ showMore, setShowMore ] = useState(true)
+  const [ compactView, setCompactView ] = useState(false)
   const [ showAll, setShowAll ] = useState(false)
   const [ filterCompleted, setFilterCompleted ] = useState(false)
 
@@ -35,9 +35,12 @@ const App = () => {
 
   const handleComplete = (id) => {
     const newTodos = [ ...todos ]
-    newTodos.find((todo) => todo.id === id).isCompleted = true
+    const todo = newTodos.find((todo) => todo.id === id)
+    todo.isCompleted = !todo.isCompleted
     setTodos(newTodos)
-    toast.success("Completed", {iconTheme: {primary: "#8aff80", secondary: "#21222c"}, style: {color: "#8aff80"}})
+    todo.isCompleted 
+      ? toast.success("Completed", {iconTheme: {primary: "#8aff80", secondary: "#21222c"}, style: {color: "#8aff80"}})
+      : toast.success("Restored", {iconTheme: {primary: "#ffff80", secondary: "#21222c"}, style: {color: "#ffff80"}})
   }
 
   const handleDelete = (id) => {
@@ -46,15 +49,15 @@ const App = () => {
     toast.error("Deleted")
   }
 
-  const handleShowMore = () => {
-    setShowMore(prev => !prev)
+  const handleCompactView = () => {
+    setCompactView(prev => !prev)
   }
 
   return (
     <div className="container">
       <Header 
         todos={todos}
-        handleShowMore={handleShowMore}
+        handleCompactView={handleCompactView}
       />
       <NavTabs
         todos={todos}
@@ -65,10 +68,10 @@ const App = () => {
         {todos
         .filter(todo => showAll || todo.isCompleted==filterCompleted)
         .map(todo => 
-          <TodoCard 
+          <TodoCard
             key={todo.id}
             data={todo}
-            showMore={showMore}
+            compactView={compactView}
             handleComplete={handleComplete}
             handleDelete={handleDelete}
           />)}

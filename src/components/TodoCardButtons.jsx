@@ -2,7 +2,7 @@ import { Box, Button } from "dracula-ui"
 
 const TodoCardButtons = ({ data, handleComplete, handleDelete }) => {
   return (
-  <Box display="flex" style={{justifyContent: "flex-end", alignItems: "center"}}>
+  <Box display="flex">
     <Button size="sm" mr="xs" color="green" variant="ghost" disabled={data.isCompleted ? true : false}
       onClick={() => handleComplete(data.id)}>
       Done

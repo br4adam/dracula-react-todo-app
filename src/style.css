@@ -31,6 +31,10 @@ article:hover {
   border: 1px solid #414558;
 }
 
+::selection {
+  background: #41455850;
+}
+
 @media screen and (max-width: 600px) {
   html {
     font-size: 14px;

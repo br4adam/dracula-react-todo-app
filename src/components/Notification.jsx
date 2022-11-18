@@ -6,7 +6,8 @@ const Notification = () => {
     position="top-center"
     gutter={10}
     containerStyle={{
-      marginTop: "1rem"
+      marginTop: "1rem",
+      userSelect: "none"
     }}
     toastOptions={{
       className: 'notification',
