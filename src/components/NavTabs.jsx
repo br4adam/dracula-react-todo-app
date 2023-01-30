@@ -13,7 +13,7 @@ const NavTabs = ({ todos, setShowAll, setFilterCompleted }) => {
 
   return (
     <Tabs color="pink">
-    {tabs.map((tab) => 
+    {tabs.map(tab => 
       <NavTab
         key={tab.id}
         id={tab.id}
@@ -25,7 +25,7 @@ const NavTabs = ({ todos, setShowAll, setFilterCompleted }) => {
         activeTab={activeTab}
         text={tab.text}
         count={tab.count}
-        />
+      />
     )}
     </Tabs>
   )

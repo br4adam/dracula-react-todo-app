@@ -4,8 +4,9 @@ import toast from 'react-hot-toast'
 import Header from './components/Header'
 import NavTabs from './components/NavTabs'
 import TodoCard from './components/TodoCard'
-import AddForm from './components/AddForm'
+import Form from './components/Form'
 import Notification from './components/Notification'
+import createId from './utils/createId'
 import { Box } from 'dracula-ui'
 
 const App = () => {
@@ -20,22 +21,16 @@ const App = () => {
     localStorage.setItem("todos", JSON.stringify(todos))
   }, [todos])
 
-  const generateId = () => {
-    return Math.random().toString(36).substring(2)
-  }
-
   const handleAdd = (text) => {
-    const date = new Date()
-    const currentDate = date.toISOString().slice(0,10)
-    const newTodo = { id: generateId(), text: text, isCompleted: false, date: currentDate }
-    const newTodos = [ ...todos, newTodo ]
-    setTodos(newTodos)
+    const currentDate = new Date().toISOString().slice(0,10)
+    const newTodo = { id: createId(), text: text, isCompleted: false, date: currentDate }
+    setTodos([ ...todos, newTodo ])
     toast.success("Added")
   }
 
   const handleComplete = (id) => {
     const newTodos = [ ...todos ]
-    const todo = newTodos.find((todo) => todo.id === id)
+    const todo = newTodos.find(todo => todo.id === id)
     todo.isCompleted = !todo.isCompleted
     setTodos(newTodos)
     todo.isCompleted 
@@ -45,13 +40,11 @@ const App = () => {
 
   const handleDelete = (id) => {
     const newTodos = [ ...todos ]
-    setTodos(newTodos.filter((todo) => todo.id !== id))
+    setTodos(newTodos.filter(todo => todo.id !== id))
     toast.error("Deleted")
   }
 
-  const handleCompactView = () => {
-    setCompactView(prev => !prev)
-  }
+  const handleCompactView = () => setCompactView(prev => !prev)
 
   return (
     <div className="container">
@@ -76,7 +69,7 @@ const App = () => {
             handleDelete={handleDelete}
           />)}
       </Box>
-      <AddForm 
+      <Form 
         handleAdd={handleAdd}
       />
       <Notification />
