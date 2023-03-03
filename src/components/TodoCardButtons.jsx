@@ -1,14 +1,18 @@
 import { Box, Button } from "dracula-ui"
+import { useContext } from "react"
+import { TodoContext } from "../context/TodoContext"
 
-const TodoCardButtons = ({ data, handleComplete, handleDelete }) => {
+const TodoCardButtons = ({ todo }) => {
+  const { completeTodo, deleteTodo } = useContext(TodoContext)
+  
   return (
   <Box display="flex">
-    <Button size="sm" mr="xs" color="green" variant="ghost" disabled={data.isCompleted ? true : false}
-      onClick={() => handleComplete(data.id)}>
+    <Button size="sm" mr="xs" color="green" variant="ghost" disabled={todo.isCompleted ? true : false}
+      onClick={() => completeTodo(todo.id)}>
       Done
     </Button>
     <Button size="sm" color="purple" variant="ghost"
-      onClick={() => handleDelete(data.id)}>
+      onClick={() => deleteTodo(todo.id)}>
       Delete
     </Button>
   </Box>

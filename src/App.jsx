@@ -1,79 +1,33 @@
-import { useState, useEffect } from 'react'
 import 'dracula-ui/styles/dracula-ui.css'
-import toast from 'react-hot-toast'
+import { useContext, useState } from 'react'
+import { TodoContext } from './context/TodoContext'
+import { Box } from 'dracula-ui'
 import Header from './components/Header'
 import NavTabs from './components/NavTabs'
 import TodoCard from './components/TodoCard'
 import Form from './components/Form'
 import Notification from './components/Notification'
-import createId from './utils/createId'
-import { Box } from 'dracula-ui'
 
 const App = () => {
-  const welcomeTodo = { id: 1, text: "Hello! Add your first todo!", isCompleted: false, date: new Date().toISOString().slice(0,10) }
-
-  const [ todos, setTodos ] = useState(JSON.parse(localStorage.getItem("todos")) || [welcomeTodo])
   const [ compactView, setCompactView ] = useState(false)
   const [ showAll, setShowAll ] = useState(false)
   const [ filterCompleted, setFilterCompleted ] = useState(false)
 
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos))
-  }, [todos])
-
-  const handleAdd = (text) => {
-    const currentDate = new Date().toISOString().slice(0,10)
-    const newTodo = { id: createId(), text: text, isCompleted: false, date: currentDate }
-    setTodos([ ...todos, newTodo ])
-    toast.success("Added")
-  }
-
-  const handleComplete = (id) => {
-    const newTodos = [ ...todos ]
-    const todo = newTodos.find(todo => todo.id === id)
-    todo.isCompleted = !todo.isCompleted
-    setTodos(newTodos)
-    todo.isCompleted 
-      ? toast.success("Completed", {iconTheme: {primary: "#8aff80", secondary: "#21222c"}, style: {color: "#8aff80"}})
-      : toast.success("Restored", {iconTheme: {primary: "#ffff80", secondary: "#21222c"}, style: {color: "#ffff80"}})
-  }
-
-  const handleDelete = (id) => {
-    const newTodos = [ ...todos ]
-    setTodos(newTodos.filter(todo => todo.id !== id))
-    toast.error("Deleted")
-  }
-
-  const handleCompactView = () => setCompactView(prev => !prev)
-
+  const { todos } = useContext(TodoContext)
+  
   return (
-    <div className="container">
-      <Header 
-        todos={todos}
-        handleCompactView={handleCompactView}
-      />
-      <NavTabs
-        todos={todos}
-        setShowAll={setShowAll}
-        setFilterCompleted={setFilterCompleted}
-      />
-      <Box as="main" mt="xs">
+    <Box className='container'>
+      <Header setCompactView={setCompactView} />
+      <NavTabs setShowAll={setShowAll} setFilterCompleted={setFilterCompleted} />
+      <Box as='main' mt='xs'>
         {todos
         .filter(todo => showAll || todo.isCompleted==filterCompleted)
         .map(todo => 
-          <TodoCard
-            key={todo.id}
-            data={todo}
-            compactView={compactView}
-            handleComplete={handleComplete}
-            handleDelete={handleDelete}
-          />)}
+          <TodoCard key={todo.id} todo={todo} compactView={compactView} />)}
       </Box>
-      <Form 
-        handleAdd={handleAdd}
-      />
+      <Form />
       <Notification />
-    </div>
+    </Box>
   )
 }
 

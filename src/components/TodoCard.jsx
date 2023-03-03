@@ -1,29 +1,26 @@
 import TodoCardButtons from './TodoCardButtons'
 import cropLongText from '../utils/cropLongText'
 import { Box, Text } from 'dracula-ui'
+import { useContext } from 'react'
+import { TodoContext } from '../context/TodoContext'
 
-const TodoElement = ({ data, handleComplete, handleDelete, compactView }) => {
+const TodoElement = ({ todo, compactView }) => {
+  const { completeTodo } = useContext(TodoContext)
+
   return (
     <Box 
-      onDoubleClick={() => data.isCompleted && handleComplete(data.id)}
-      color={!data.isCompleted && "black"}
+      onDoubleClick={() => todo.isCompleted && completeTodo(todo.id)}
+      color={!todo.isCompleted && "black"}
       display="flex" p="sm" mb="xs" rounded="lg" as="article">
       <Box display="flex" pr="sm" style={{flexDirection: "column"}}>
-        <Text 
-          color={data.isCompleted ? "blackSecondary" : "purpleCyan"}
-          style={{wordBreak: "break-all"}}>
-          {compactView ? cropLongText(data.text) : data.text}
+        <Text color={todo.isCompleted ? "blackSecondary" : "purpleCyan"} style={{wordBreak: "break-all"}}>
+          {compactView ? cropLongText(todo.text) : todo.text}
         </Text>
-        <Text 
-          mt={!compactView && "xs"} color="blackSecondary">
-          {!compactView && data.date}
+        <Text mt={!compactView && "xs"} color="blackSecondary">
+          {!compactView && todo.date}
         </Text>
       </Box>
-      <TodoCardButtons 
-        handleComplete={handleComplete}
-        handleDelete={handleDelete}
-        data={data}
-      />
+      <TodoCardButtons todo={todo} />
     </Box>
   )
 }
