@@ -8,3 +8,7 @@ View live demo here [link](https://dracula-react-todo-app.netlify.app/)
 This is a simple todo list application built using React and Dracula UI. 
 You can create, delete, filter and mark tasks as done/undone and you have the option to change the view to compact or normal.
 The app uses localstorage to save and retrieve todos.
+#### ⚙️ Getting started
+- Clone this repository.
+- `npm install` to install all dependencies.
+- `npm run dev` to start the local server.
